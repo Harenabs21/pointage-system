@@ -1,7 +1,10 @@
 package hei.std22049.models;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 
+@Getter
 public final class Employee extends Person {
     private final String registrationNumber;
     private final LocalDate hireDate;
