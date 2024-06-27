@@ -23,16 +23,15 @@ public class SalaryOperation {
         int holidayWorkHours = getHolidayWorkHours(employee, scorings, calendar, startDate, endDate);
         int nightWorkHours = getNightWorkHours(employee, scorings, startDate, endDate);
         int sundayWorkHours = getSundayWorkHours(employee, scorings, startDate, endDate);
-        int  totalHoursWorkedForRegularAndOvertime = totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours;
+        int  totalHoursWorkedForRegular = totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours;
 
         // get all gross salaries
-        double grossSalaryRegular = getGrossSalaryRegular(totalHoursWorkedForRegularAndOvertime, regularHours, hourlyRate);
-        double grossSalaryOvertime = getGrossSalaryWithOvertime(totalHoursWorkedForRegularAndOvertime, regularHours, hourlyRate);
+        double grossSalaryRegular = getGrossSalaryRegular(totalHoursWorkedForRegular, regularHours, hourlyRate);
         double grossSalaryHolidays = getGrossSalaryForHolidays(holidayWorkHours, hourlyRate);
         double grossSalaryNight = getGrossSalaryForNightHours(nightWorkHours, hourlyRate);
         double grossSalarySunday = getGrossSalaryForSundayHours(sundayWorkHours, hourlyRate);
 
-        return grossSalaryRegular + grossSalaryOvertime + grossSalaryHolidays + grossSalaryNight + grossSalarySunday;
+        return grossSalaryRegular + grossSalaryHolidays + grossSalaryNight + grossSalarySunday;
     }
 
     public static double getSalaryPerHour(Category category, int regularHours){
@@ -41,22 +40,6 @@ public class SalaryOperation {
 
     private static double getGrossSalaryRegular(int hoursWorked, int regularHours, double hourlyRate) {
         return Math.min(hoursWorked, regularHours) * hourlyRate;
-    }
-
-    private static double getGrossSalaryWithOvertime(int hoursWorked, int regularHours, double hourlyRate) {
-        int overtimeHours = Math.max(0, hoursWorked - regularHours);
-        int limitedOvertimeHours = Math.min(overtimeHours, 20);
-        double grossSalary = 0.0;
-
-        if (limitedOvertimeHours > 0) {
-            int overtime30 = Math.min(limitedOvertimeHours, 8);
-            int overtime50 = Math.max(0, limitedOvertimeHours - 8);
-
-            grossSalary += overtime30 * hourlyRate * 1.3;
-            grossSalary += Math.min(overtime50, 12) * hourlyRate * 1.5;
-        }
-
-        return grossSalary;
     }
 
     private static double getGrossSalaryForHolidays(int holidayWorkHours, double hourlyRate) {
