@@ -8,21 +8,20 @@ import hei.std22049.models.utils.Shifting;
 import hei.std22049.models.utils.TimeTrackingUtil;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.List;
 
 public class SalaryOperation {
 
-    public static double calculateGrossSalary(Employee employee, List<Scoring> scorings, LocalDate startDate, LocalDate endDate, Calendar calendar) {
+    public static double calculateGrossSalary(Employee employee, List<Scoring> scorings, Calendar calendar) {
         Category category = employee.getCategory();
         int regularHours = category.hoursPerWeek();
         double hourlyRate = getSalaryPerHour(category,regularHours);
 
         // get all hours working for an employee
-        int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(employee, scorings, startDate, endDate);
-        int holidayWorkHours = getHolidayWorkHours(employee, scorings, calendar, startDate, endDate);
-        int nightWorkHours = getNightWorkHours(employee, scorings, startDate, endDate);
-        int sundayWorkHours = getSundayWorkHours(employee, scorings, startDate, endDate);
+        int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(employee, scorings, calendar);
+        int holidayWorkHours = getHolidayWorkHours(employee, scorings, calendar);
+        int nightWorkHours = getNightWorkHours(employee, scorings, calendar);
+        int sundayWorkHours = getSundayWorkHours(employee, scorings, calendar);
         int  totalHoursWorkedForRegular = totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours;
 
         // get all gross salaries
@@ -54,12 +53,12 @@ public class SalaryOperation {
         return sundayWorkHours * hourlyRate * 1.4; // 40% premium for Sunday hours
     }
 
-    private static int getHolidayWorkHours(Employee employee, List<Scoring> scorings, Calendar calendar, LocalDate startDate, LocalDate endDate) {
+    private static int getHolidayWorkHours(Employee employee, List<Scoring> scorings, Calendar calendar) {
         int holidayWorkHours = 0;
 
         for (Scoring scoring : scorings) {
             if (scoring.employee().equals(employee) && calendar.isHoliday(scoring.date())
-                    && !scoring.date().isBefore(startDate) && !scoring.date().isAfter(endDate)) {
+                    && !scoring.date().isBefore(calendar.getBegin()) && !scoring.date().isAfter(calendar.getEnd())) {
                 holidayWorkHours += scoring.hoursWorked();
             }
         }
@@ -67,12 +66,12 @@ public class SalaryOperation {
         return holidayWorkHours;
     }
 
-    private static int getNightWorkHours(Employee employee, List<Scoring> scorings, LocalDate startDate, LocalDate endDate) {
+    private static int getNightWorkHours(Employee employee, List<Scoring> scorings, Calendar calendar) {
         int nightWorkHours = 0;
 
         for (Scoring scoring : scorings) {
             if (scoring.employee().equals(employee) && scoring.shifting() == Shifting.NIGHT
-                    && !scoring.date().isBefore(startDate) && !scoring.date().isAfter(endDate)) {
+                    && !scoring.date().isBefore(calendar.getBegin()) && !scoring.date().isAfter(calendar.getEnd())) {
                 nightWorkHours += scoring.hoursWorked();
             }
         }
@@ -80,12 +79,12 @@ public class SalaryOperation {
         return nightWorkHours;
     }
 
-    private static int getSundayWorkHours(Employee employee, List<Scoring> scorings, LocalDate startDate, LocalDate endDate) {
+    private static int getSundayWorkHours(Employee employee, List<Scoring> scorings, Calendar calendar) {
         int sundayWorkHours = 0;
 
         for (Scoring scoring : scorings) {
             if (scoring.employee().equals(employee) && scoring.date().getDayOfWeek() == DayOfWeek.SUNDAY
-                    && !scoring.date().isBefore(startDate) && !scoring.date().isAfter(endDate)) {
+                    && !scoring.date().isBefore(calendar.getBegin()) && !scoring.date().isAfter(calendar.getEnd())) {
                 sundayWorkHours += scoring.hoursWorked();
             }
         }

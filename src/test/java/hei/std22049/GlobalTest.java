@@ -29,8 +29,10 @@ public class GlobalTest {
         Salary rabeSalary = new Salary(110000);
         rabe = new Employee("Rabe", "Paul", LocalDate.of(1982, 8, 20), "12346", LocalDate.of(2012, 7, 1), null, rabeSalary, guardCategory);
 
+        LocalDate startDate = LocalDate.of(2024, 6, 14);
+        LocalDate endDate = LocalDate.of(2024, 6, 20);
         // Creating a calendar and adding holidays
-        calendar = new Calendar();
+        calendar = new Calendar(startDate,endDate);
         calendar.addHoliday(LocalDate.of(2024, 6, 17)); // Adding June 17 as a holiday
         calendar.addHoliday(LocalDate.of(2024, 6, 25)); // Adding June 25 as a holiday
         calendar.addHoliday(LocalDate.of(2024, 6, 26)); // Adding June 26 as a holiday
@@ -45,12 +47,8 @@ public class GlobalTest {
 
     @Test
     public void testCalculateGrossSalaryWithoutOvertimeOrHolidays() {
-        // Define the period for the week
-        LocalDate startDate = LocalDate.of(2024, 6, 14);
-        LocalDate endDate = LocalDate.of(2024, 6, 20);
-
         // Calculate Rakoto's gross salary
-        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings, startDate, endDate, calendar);
+        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings,  calendar);
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 110000.0 / 56; // Weekly salary divided by regular hours
@@ -64,12 +62,8 @@ public class GlobalTest {
         scorings.add(new Scoring(rakoto, LocalDate.of(2024, 6, 18), 12, Shifting.DAY)); // 12 hours of work on this day
         scorings.add(new Scoring(rakoto, LocalDate.of(2024, 6, 19), 12, Shifting.DAY)); // 12 hours of work on this day
 
-        // Define the period for the week
-        LocalDate startDate = LocalDate.of(2024, 6, 14);
-        LocalDate endDate = LocalDate.of(2024, 6, 20);
-
         // Calculate Rakoto's gross salary
-        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings, startDate, endDate, calendar);
+        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings,  calendar);
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 110000.0 / 56;
@@ -83,12 +77,8 @@ public class GlobalTest {
         scorings.add(new Scoring(rakoto, LocalDate.of(2024, 6, 18), 8, Shifting.NIGHT)); // 8 hours of night work on this day
         scorings.add(new Scoring(rakoto, LocalDate.of(2024, 6, 19), 8, Shifting.NIGHT)); // 8 hours of night work on this day
 
-        // Define the period for the week
-        LocalDate startDate = LocalDate.of(2024, 6, 14);
-        LocalDate endDate = LocalDate.of(2024, 6, 20);
-
         // Calculate Rakoto's gross salary
-        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings, startDate, endDate, calendar);
+        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings,  calendar);
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 110000.0 / 56;
@@ -100,13 +90,8 @@ public class GlobalTest {
     public void testCalculateGrossSalaryWithHolidayWork() {
         // Adding holiday hours to Rakoto's scoring
         scorings.add(new Scoring(rakoto, LocalDate.of(2024, 6, 17), 8, Shifting.DAY)); // 8 hours of work on a holiday
-
-        // Define the period for the week
-        LocalDate startDate = LocalDate.of(2024, 6, 14);
-        LocalDate endDate = LocalDate.of(2024, 6, 20);
-
         // Calculate Rakoto's gross salary
-        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings, startDate, endDate, calendar);
+        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scorings, calendar);
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 110000.0 / 56;
