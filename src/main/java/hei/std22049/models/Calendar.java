@@ -8,9 +8,13 @@ import java.util.Set;
 
 @Getter
 public class Calendar{
+    private final LocalDate begin;
+    private final LocalDate end;
     private Set<LocalDate> holidays;
 
-    public Calendar(){
+    public Calendar(LocalDate begin, LocalDate end){
+        this.begin = begin;
+        this.end = end;
         this.holidays = new HashSet<>();
     }
     public void addHoliday(LocalDate date){
