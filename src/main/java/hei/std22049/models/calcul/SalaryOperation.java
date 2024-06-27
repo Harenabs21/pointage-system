@@ -16,20 +16,27 @@ public class SalaryOperation {
     public static double calculateGrossSalary(Employee employee, List<Scoring> scorings, LocalDate startDate, LocalDate endDate, Calendar calendar) {
         Category category = employee.getCategory();
         int regularHours = category.hoursPerWeek();
-        double hourlyRate = category.salaryPerWeek() / regularHours;
+        double hourlyRate = getSalaryPerHour(category,regularHours);
 
+        // get all hours working for an employee
         int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(employee, scorings, startDate, endDate);
         int holidayWorkHours = getHolidayWorkHours(employee, scorings, calendar, startDate, endDate);
         int nightWorkHours = getNightWorkHours(employee, scorings, startDate, endDate);
         int sundayWorkHours = getSundayWorkHours(employee, scorings, startDate, endDate);
+        int  totalHoursWorkedForRegularAndOvertime = totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours;
 
-        double grossSalaryRegular = getGrossSalaryRegular(totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours, regularHours, hourlyRate);
-        double grossSalaryOvertime = getGrossSalaryWithOvertime(totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours, regularHours, hourlyRate);
+        // get all gross salaries
+        double grossSalaryRegular = getGrossSalaryRegular(totalHoursWorkedForRegularAndOvertime, regularHours, hourlyRate);
+        double grossSalaryOvertime = getGrossSalaryWithOvertime(totalHoursWorkedForRegularAndOvertime, regularHours, hourlyRate);
         double grossSalaryHolidays = getGrossSalaryForHolidays(holidayWorkHours, hourlyRate);
         double grossSalaryNight = getGrossSalaryForNightHours(nightWorkHours, hourlyRate);
         double grossSalarySunday = getGrossSalaryForSundayHours(sundayWorkHours, hourlyRate);
 
         return grossSalaryRegular + grossSalaryOvertime + grossSalaryHolidays + grossSalaryNight + grossSalarySunday;
+    }
+
+    public static double getSalaryPerHour(Category category, int regularHours){
+        return category.salaryPerWeek() / regularHours;
     }
 
     private static double getGrossSalaryRegular(int hoursWorked, int regularHours, double hourlyRate) {
