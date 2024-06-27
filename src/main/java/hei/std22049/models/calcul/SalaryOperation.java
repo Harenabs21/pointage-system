@@ -22,13 +22,15 @@ public class SalaryOperation {
         int holidayWorkHours = getHolidayWorkHours(employee, scorings, calendar);
         int nightWorkHours = getNightWorkHours(employee, scorings, calendar);
         int sundayWorkHours = getSundayWorkHours(employee, scorings, calendar);
-        int  totalHoursWorkedForRegular = totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours;
+        int  totalHoursWorkedForRegular = Math.max(0,totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours) ;
+        System.out.println("totalHoursWorked:"+totalHoursWorked+", holidayWorkHours:"+holidayWorkHours+", nightWorkHours:"+nightWorkHours+", sundayWorkHours:"+sundayWorkHours+", totalHoursWorkedForRegular:"+totalHoursWorkedForRegular);
 
         // get all gross salaries
-        double grossSalaryRegular = getGrossSalaryRegular(totalHoursWorkedForRegular, regularHours, hourlyRate);
+        double grossSalaryRegular = getGrossSalaryRegular(totalHoursWorkedForRegular,  hourlyRate);
         double grossSalaryHolidays = getGrossSalaryForHolidays(holidayWorkHours, hourlyRate);
         double grossSalaryNight = getGrossSalaryForNightHours(nightWorkHours, hourlyRate);
         double grossSalarySunday = getGrossSalaryForSundayHours(sundayWorkHours, hourlyRate);
+        System.out.println("regular:"+grossSalaryRegular+", holidays:"+grossSalaryHolidays+", night:"+grossSalaryNight+", sunday:"+grossSalarySunday);
 
         return grossSalaryRegular + grossSalaryHolidays + grossSalaryNight + grossSalarySunday;
     }
@@ -37,8 +39,8 @@ public class SalaryOperation {
         return category.salaryPerWeek() / regularHours;
     }
 
-    private static double getGrossSalaryRegular(int hoursWorked, int regularHours, double hourlyRate) {
-        return Math.min(hoursWorked, regularHours) * hourlyRate;
+    private static double getGrossSalaryRegular(int hoursWorked, double hourlyRate) {
+        return hoursWorked * hourlyRate;
     }
 
     private static double getGrossSalaryForHolidays(int holidayWorkHours, double hourlyRate) {
