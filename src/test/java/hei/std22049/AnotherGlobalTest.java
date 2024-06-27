@@ -31,8 +31,8 @@ public class AnotherGlobalTest {
         Salary rabeSalary = new Salary(100000);
         rabe = new Employee("Rabe", "Paul", LocalDate.of(1982, 8, 20), "12346", LocalDate.of(2012, 7, 1), null, rabeSalary, guardRabe);
 
-        LocalDate startDate = LocalDate.of(2024, 6, 14);
-        LocalDate endDate = LocalDate.of(2024, 6, 20);
+        LocalDate startDate = LocalDate.of(2024, 5, 26);
+        LocalDate endDate = LocalDate.of(2024, 7, 6);
         calendar = new Calendar(startDate,endDate);
 
         // Example scoring records for Rakoto and Rabe
@@ -47,48 +47,37 @@ public class AnotherGlobalTest {
 
     @Test
     public void testCalculateGrossSalaryForRakoto() {
-        // Define the period for the weeks
-        LocalDate startDate = LocalDate.of(2024, 5, 26);
-        LocalDate endDate = LocalDate.of(2024, 7, 6);
 
         // Calculate Rakoto's gross salary
         double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scoringList, calendar);
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 100000.0 / 70;
-        double sundayRate = hourlyRate * 1.4;
-        double expectedGrossSalary = 420 * sundayRate;
+        double sundayRate = 60 * hourlyRate * 1.4;
+        double expectedGrossSalary = 360 * hourlyRate  + sundayRate;
         assertEquals(expectedGrossSalary, grossSalaryRakoto, 0.01);
     }
 
     @Test
     public void testCalculateGrossSalaryForRabe() {
-        // Define the period for the weeks
-        LocalDate startDate = LocalDate.of(2024, 5, 26);
-        LocalDate endDate = LocalDate.of(2024, 7, 6);
-
         // Calculate Rabe's gross salary
         double grossSalaryRabe = SalaryOperation.calculateGrossSalary(rabe, scoringList, calendar);
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 100000.0 / 98; // Weekly salary divided by regular hours
-        double nightRate = hourlyRate * 1.3;
-        double sundayRate = nightRate * 1.4;
-        double expectedGrossSalary = 588 * sundayRate;
+        double nightRate = 588 * hourlyRate * 1.3;
+        double sundayRate = 84 * hourlyRate * 1.4;
+        double expectedGrossSalary = nightRate + sundayRate;
         assertEquals(expectedGrossSalary, grossSalaryRabe);
     }
 
     @Test
     public void calculateHoursWorkOfRakoto(){
-        LocalDate startDate = LocalDate.of(2024, 5, 26);
-        LocalDate endDate = LocalDate.of(2024, 7, 6);
         int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(rakoto,scoringList,calendar);
         assertEquals(420,totalHoursWorked);
     }
     @Test
     public void calculateHoursWorkOfRabe(){
-        LocalDate startDate = LocalDate.of(2024, 5, 26);
-        LocalDate endDate = LocalDate.of(2024, 7, 6);
         int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(rabe,scoringList,calendar);
         assertEquals(588,totalHoursWorked);
     }
