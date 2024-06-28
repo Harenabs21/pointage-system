@@ -37,6 +37,18 @@ public class TimeTrackingUtil {
         return holidayWorkHours;
     }
 
+    public int getDayWorkHours() {
+        int dayWorkHours = 0;
+
+        for (Scoring scoring : scorings) {
+            if (scoring.employee().equals(employee) && scoring.shifting() == Shifting.DAY
+                    && !scoring.date().isBefore(calendar.getBegin()) && !scoring.date().isAfter(calendar.getEnd())) {
+                dayWorkHours += scoring.hoursWorked();
+            }
+        }
+        return dayWorkHours;
+    }
+
     public int getNightWorkHours() {
         int nightWorkHours = 0;
 

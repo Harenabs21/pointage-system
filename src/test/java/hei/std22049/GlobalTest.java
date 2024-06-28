@@ -52,7 +52,7 @@ public class GlobalTest {
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 110000.0 / 56; // Weekly salary divided by regular hours
-        double expectedGrossSalary = Math.round((8 * hourlyRate + 8 * hourlyRate * 1.4) * 100.0) / 100.0; // 16 hours worked
+        double expectedGrossSalary = Math.round((16 * hourlyRate + 8 * hourlyRate * 1.4) * 100.0) / 100.0; // 16 hours worked
         assertEquals(expectedGrossSalary, grossSalaryRakoto);
     }
 
@@ -82,7 +82,7 @@ public class GlobalTest {
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 110000.0 / 56;
-        double expectedGrossSalary = Math.round(((8 * hourlyRate)+ (8* hourlyRate * 1.4) + (16 * hourlyRate * 1.3)) * 100.0) / 100.0 ; // 16 regular hours + 16 night hours at 130%
+        double expectedGrossSalary = Math.round(((16 * hourlyRate)+ (8* hourlyRate * 1.4) + (16 * hourlyRate * 1.3)) * 100.0) / 100.0 ; // 16 regular hours + 16 night hours at 130%
         assertEquals(expectedGrossSalary, grossSalaryRakoto);
     }
 
@@ -95,7 +95,7 @@ public class GlobalTest {
 
         // Check if the calculated gross salary is as expected
         double hourlyRate = 110000.0 / 56;
-        double expectedGrossSalary = Math.round(((8 * hourlyRate) + (8 * hourlyRate * 1.4)  + (8 * hourlyRate * 1.5)) * 100.0) / 100.0; // 16 regular hours + 8 holiday hours at 150%
+        double expectedGrossSalary = Math.round(((16 * hourlyRate) + (8 * hourlyRate * 1.4)  + (8 * hourlyRate * 1.5)) * 100.0) / 100.0; // 16 regular hours + 8 holiday hours at 150%
         assertEquals(expectedGrossSalary, grossSalaryRakoto);
     }
 }

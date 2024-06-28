@@ -54,7 +54,7 @@ public class AnotherGlobalTest {
         // Check if the calculated gross salary is as expected
         double hourlyRate = 100000.0 / 70;
         double sundayRate = 60 * hourlyRate * 1.4;
-        double expectedGrossSalary = Math.round((360 * hourlyRate  + sundayRate) * 100.0) / 100.0;
+        double expectedGrossSalary = Math.round((420 * hourlyRate  + sundayRate) * 100.0) / 100.0;
         assertEquals(expectedGrossSalary, grossSalaryRakoto, 0.01);
     }
 
