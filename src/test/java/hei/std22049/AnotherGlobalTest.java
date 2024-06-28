@@ -72,6 +72,42 @@ public class AnotherGlobalTest {
     }
 
     @Test
+    public void testCalculateGrossSalaryWithOvertimeForRakoto() {
+        // add holidays period
+        calendar.addHoliday(LocalDate.of(2024, 6 , 17));
+        calendar.addHoliday(LocalDate.of(2024, 6 , 25));
+        calendar.addHoliday(LocalDate.of(2024, 6 , 26));
+
+        // Calculate Rakoto's gross salary
+        double grossSalaryRakoto = SalaryOperation.calculateGrossSalary(rakoto, scoringList, calendar);
+
+        // Check if the calculated gross salary is as expected
+        double hourlyRate = 100000.0 / 70;
+        double sundayRate = 60 * hourlyRate * 1.4;
+        double holidayRate = 30 * hourlyRate * 1.5;
+        double expectedGrossSalary = Math.round((330 * hourlyRate  + sundayRate + holidayRate) * 100.0) / 100.0;
+        assertEquals(expectedGrossSalary, grossSalaryRakoto, 0.01);
+    }
+
+    @Test
+    public void testCalculateGrossSalaryWithOvertimeForRabe() {
+        // add holidays period
+        calendar.addHoliday(LocalDate.of(2024, 6 , 17));
+        calendar.addHoliday(LocalDate.of(2024, 6 , 25));
+        calendar.addHoliday(LocalDate.of(2024, 6 , 26));
+        // Calculate Rabe's gross salary
+        double grossSalaryRabe = SalaryOperation.calculateGrossSalary(rabe, scoringList, calendar);
+
+        // Check if the calculated gross salary is as expected
+        double hourlyRate = 100000.0 / 98; // Weekly salary divided by regular hours
+        double nightRate = 588 * hourlyRate * 1.3;
+        double sundayRate = 84 * hourlyRate * 1.4;
+        double holidayRate = 30 * hourlyRate * 1.5;
+        double expectedGrossSalary = Math.round((nightRate + sundayRate + holidayRate) * 100.0) / 100.0;
+        assertEquals(expectedGrossSalary, grossSalaryRabe);
+    }
+
+    @Test
     public void calculateHoursWorkOfRakoto(){
         int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(rakoto,scoringList,calendar);
         assertEquals(420,totalHoursWorked);
