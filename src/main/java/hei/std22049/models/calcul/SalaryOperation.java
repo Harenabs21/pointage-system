@@ -32,7 +32,7 @@ public class SalaryOperation {
         double grossSalarySunday = getGrossSalaryForSundayHours(sundayWorkHours, hourlyRate);
         System.out.println("regular:"+grossSalaryRegular+", holidays:"+grossSalaryHolidays+", night:"+grossSalaryNight+", sunday:"+grossSalarySunday);
 
-        return grossSalaryRegular + grossSalaryHolidays + grossSalaryNight + grossSalarySunday;
+        return Math.round((grossSalaryRegular + grossSalaryHolidays + grossSalaryNight + grossSalarySunday) * 100.0) / 100.0;
     }
 
     public static double getSalaryPerHour(Category category, int regularHours){
