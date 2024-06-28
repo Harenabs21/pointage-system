@@ -4,10 +4,7 @@ import hei.std22049.models.Calendar;
 import hei.std22049.models.Category;
 import hei.std22049.models.Employee;
 import hei.std22049.models.Scoring;
-import hei.std22049.models.utils.Shifting;
 import hei.std22049.models.utils.TimeTrackingUtil;
-
-import java.time.DayOfWeek;
 import java.util.List;
 
 public class SalaryOperation {
@@ -16,12 +13,12 @@ public class SalaryOperation {
         Category category = employee.getCategory();
         int regularHours = category.hoursPerWeek();
         double hourlyRate = getSalaryPerHour(category,regularHours);
-
+        TimeTrackingUtil timeTracking = new TimeTrackingUtil(employee,scorings,calendar);
         // get all hours working for an employee
-        int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(employee, scorings, calendar);
-        int holidayWorkHours = getHolidayWorkHours(employee, scorings, calendar);
-        int nightWorkHours = getNightWorkHours(employee, scorings, calendar);
-        int sundayWorkHours = getSundayWorkHours(employee, scorings, calendar);
+        int totalHoursWorked = timeTracking.calculateWeeklyHours();
+        int holidayWorkHours = timeTracking.getHolidayWorkHours();
+        int nightWorkHours = timeTracking.getNightWorkHours();
+        int sundayWorkHours = timeTracking.getSundayWorkHours();
         int  totalHoursWorkedForRegular = Math.max(0,totalHoursWorked - holidayWorkHours - nightWorkHours - sundayWorkHours) ;
         System.out.println("totalHoursWorked:"+totalHoursWorked+", holidayWorkHours:"+holidayWorkHours+", nightWorkHours:"+nightWorkHours+", sundayWorkHours:"+sundayWorkHours+", totalHoursWorkedForRegular:"+totalHoursWorkedForRegular);
 
@@ -55,42 +52,4 @@ public class SalaryOperation {
         return sundayWorkHours * hourlyRate * 1.4; // 40% premium for Sunday hours
     }
 
-    private static int getHolidayWorkHours(Employee employee, List<Scoring> scorings, Calendar calendar) {
-        int holidayWorkHours = 0;
-
-        for (Scoring scoring : scorings) {
-            if (scoring.employee().equals(employee) && calendar.isHoliday(scoring.date())
-                    && !scoring.date().isBefore(calendar.getBegin()) && !scoring.date().isAfter(calendar.getEnd())) {
-                holidayWorkHours += scoring.hoursWorked();
-            }
-        }
-
-        return holidayWorkHours;
-    }
-
-    private static int getNightWorkHours(Employee employee, List<Scoring> scorings, Calendar calendar) {
-        int nightWorkHours = 0;
-
-        for (Scoring scoring : scorings) {
-            if (scoring.employee().equals(employee) && scoring.shifting() == Shifting.NIGHT
-                    && !scoring.date().isBefore(calendar.getBegin()) && !scoring.date().isAfter(calendar.getEnd())) {
-                nightWorkHours += scoring.hoursWorked();
-            }
-        }
-
-        return nightWorkHours;
-    }
-
-    private static int getSundayWorkHours(Employee employee, List<Scoring> scorings, Calendar calendar) {
-        int sundayWorkHours = 0;
-
-        for (Scoring scoring : scorings) {
-            if (scoring.employee().equals(employee) && scoring.date().getDayOfWeek() == DayOfWeek.SUNDAY
-                    && !scoring.date().isBefore(calendar.getBegin()) && !scoring.date().isAfter(calendar.getEnd())) {
-                sundayWorkHours += scoring.hoursWorked();
-            }
-        }
-
-        return sundayWorkHours;
-    }
 }

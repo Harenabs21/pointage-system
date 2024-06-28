@@ -109,12 +109,14 @@ public class AnotherGlobalTest {
 
     @Test
     public void calculateHoursWorkOfRakoto(){
-        int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(rakoto,scoringList,calendar);
+        TimeTrackingUtil timeTrackingOfRakoto = new TimeTrackingUtil(rakoto,scoringList,calendar);
+        int totalHoursWorked = timeTrackingOfRakoto.calculateWeeklyHours();
         assertEquals(420,totalHoursWorked);
     }
     @Test
     public void calculateHoursWorkOfRabe(){
-        int totalHoursWorked = TimeTrackingUtil.calculateWeeklyHours(rabe,scoringList,calendar);
+        TimeTrackingUtil timeTrackingOfRabe = new TimeTrackingUtil(rabe,scoringList,calendar);
+        int totalHoursWorked = timeTrackingOfRabe.calculateWeeklyHours();
         assertEquals(588,totalHoursWorked);
     }
 
