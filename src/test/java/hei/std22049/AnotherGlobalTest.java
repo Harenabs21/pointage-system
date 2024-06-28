@@ -102,7 +102,7 @@ public class AnotherGlobalTest {
         double hourlyRate = 100000.0 / 98; // Weekly salary divided by regular hours
         double nightRate = 588 * hourlyRate * 1.3;
         double sundayRate = 84 * hourlyRate * 1.4;
-        double holidayRate = 30 * hourlyRate * 1.5;
+        double holidayRate = 42 * hourlyRate * 1.5;
         double expectedGrossSalary = Math.round((nightRate + sundayRate + holidayRate) * 100.0) / 100.0;
         assertEquals(expectedGrossSalary, grossSalaryRabe);
     }
