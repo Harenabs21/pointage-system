@@ -35,19 +35,19 @@ public class SalaryOperation {
         return category.salaryPerWeek() / regularHours;
     }
 
-    private static double getGrossSalaryForDayHours(int dayHours, double hourlyRate) {
+    public static double getGrossSalaryForDayHours(int dayHours, double hourlyRate) {
         return dayHours * hourlyRate;
     }
 
-    private static double getGrossSalaryForHolidays(int holidayWorkHours, double hourlyRate) {
+    public static double getGrossSalaryForHolidays(int holidayWorkHours, double hourlyRate) {
         return holidayWorkHours * hourlyRate * 1.5; // Assuming 50% premium for holidays
     }
 
-    private static double getGrossSalaryForNightHours(int nightWorkHours, double hourlyRate) {
+    public static double getGrossSalaryForNightHours(int nightWorkHours, double hourlyRate) {
         return nightWorkHours * hourlyRate * 1.3; // 30% premium for night hours
     }
 
-    private static double getGrossSalaryForSundayHours(int sundayWorkHours, double hourlyRate) {
+    public static double getGrossSalaryForSundayHours(int sundayWorkHours, double hourlyRate) {
         return sundayWorkHours * hourlyRate * 1.4; // 40% premium for Sunday hours
     }
 
