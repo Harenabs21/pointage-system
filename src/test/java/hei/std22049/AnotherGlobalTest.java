@@ -54,7 +54,7 @@ public class AnotherGlobalTest {
         // Check if the calculated gross salary is as expected
         double hourlyRate = 100000.0 / 70;
         double sundayRate = 60 * hourlyRate * 1.4;
-        double expectedGrossSalary = Math.round((420 * hourlyRate  + sundayRate) * 100.0) / 100.0;
+        double expectedGrossSalary = Math.round((360 * hourlyRate  + sundayRate) * 100.0) / 100.0;
         assertEquals(expectedGrossSalary, grossSalaryRakoto, 0.01);
     }
 
@@ -72,7 +72,7 @@ public class AnotherGlobalTest {
     }
 
     @Test
-    public void testCalculateGrossSalaryWithOvertimeForRakoto() {
+    public void testCalculateGrossSalaryWithHolidayForRakoto() {
         // add holidays period
         calendar.addHoliday(LocalDate.of(2024, 6 , 17));
         calendar.addHoliday(LocalDate.of(2024, 6 , 25));
@@ -90,7 +90,7 @@ public class AnotherGlobalTest {
     }
 
     @Test
-    public void testCalculateGrossSalaryWithOvertimeForRabe() {
+    public void testCalculateGrossSalaryWithHolidayForRabe() {
         // add holidays period
         calendar.addHoliday(LocalDate.of(2024, 6 , 17));
         calendar.addHoliday(LocalDate.of(2024, 6 , 25));

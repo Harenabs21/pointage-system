@@ -19,10 +19,11 @@ public class SalaryOperation {
         int holidayWorkHours = timeTracking.getHolidayWorkHours();
         int nightWorkHours = timeTracking.getNightWorkHours();
         int sundayWorkHours = timeTracking.getSundayWorkHours();
-        System.out.println("dayWorkHours:"+dayWorkHours+", holidayWorkHours:"+holidayWorkHours+", nightWorkHours:"+nightWorkHours+", sundayWorkHours:"+sundayWorkHours);
+        int regularWorkHours = Math.max(0,dayWorkHours - holidayWorkHours - nightWorkHours - sundayWorkHours);
+        System.out.println("regularWorkHours:"+regularWorkHours+", holidayWorkHours:"+holidayWorkHours+", nightWorkHours:"+nightWorkHours+", sundayWorkHours:"+sundayWorkHours);
 
         // get all gross salaries
-        double grossSalaryDays = getGrossSalaryForDayHours(dayWorkHours,  hourlyRate);
+        double grossSalaryDays = getGrossSalaryForDayHours(regularWorkHours,  hourlyRate);
         double grossSalaryHolidays = getGrossSalaryForHolidays(holidayWorkHours, hourlyRate);
         double grossSalaryNight = getGrossSalaryForNightHours(nightWorkHours, hourlyRate);
         double grossSalarySunday = getGrossSalaryForSundayHours(sundayWorkHours, hourlyRate);
@@ -36,7 +37,7 @@ public class SalaryOperation {
     }
 
     public static double getGrossSalaryForDayHours(int dayHours, double hourlyRate) {
-        return dayHours * hourlyRate;
+        return Math.max(0,dayHours * hourlyRate);
     }
 
     public static double getGrossSalaryForHolidays(int holidayWorkHours, double hourlyRate) {
@@ -49,6 +50,10 @@ public class SalaryOperation {
 
     public static double getGrossSalaryForSundayHours(int sundayWorkHours, double hourlyRate) {
         return sundayWorkHours * hourlyRate * 1.4; // 40% premium for Sunday hours
+    }
+
+    public static double calculateNetSalary(double grossSalary){
+        return  grossSalary * 0.8;
     }
 
 }
